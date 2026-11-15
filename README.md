@@ -41,3 +41,10 @@ A group that matched the empty string is kept, because it participated in the
 match. For example, `extract_named_groups(r"(?P<x>a?)(?P<y>b)", "b")` returns
 `{"x": "", "y": "b"}`. If you need to tell an empty match apart from a
 non-participating group, use `re` directly.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
